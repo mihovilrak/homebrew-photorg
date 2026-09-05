@@ -1,0 +1,33 @@
+name: Test formula
+
+on:
+  push:
+    branches: [main]
+    paths: ["Formula/**"]
+  pull_request:
+    paths: ["Formula/**"]
+  workflow_dispatch:
+  # Assets are hosted on the photorg release, not in this repo, so a weekly
+  # run catches URL/checksum rot even when the formula itself never changes.
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-13, macos-14, ubuntu-latest, ubuntu-24.04-arm]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install
+        run: brew install --formula --verbose ./Formula/photorg.rb
+
+      - name: Test
+        run: brew test photorg
+
+      - name: Audit
+        run: brew audit --formula ./Formula/photorg.rb
