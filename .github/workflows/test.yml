@@ -19,15 +19,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13, macos-14, ubuntu-latest, ubuntu-24.04-arm]
+        os: [macos-15-intel, macos-14, ubuntu-latest, ubuntu-24.04-arm]
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Tap formula
+        run: brew tap mihovilrak/photorg "$GITHUB_WORKSPACE"
+
       - name: Install
-        run: brew install --formula --verbose ./Formula/photorg.rb
+        run: brew install --formula --verbose mihovilrak/photorg/photorg
 
       - name: Test
-        run: brew test photorg
+        run: brew test mihovilrak/photorg/photorg
 
       - name: Audit
-        run: brew audit --formula ./Formula/photorg.rb
+        run: brew audit --formula mihovilrak/photorg/photorg
