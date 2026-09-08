@@ -1,7 +1,6 @@
 class Photorg < Formula
   desc "Fast cross-platform CLI that organizes photos into date- and location-structured folders"
   homepage "https://github.com/mihovilrak/photorg"
-  version "0.1.0"
   license "MIT"
 
   on_macos do
