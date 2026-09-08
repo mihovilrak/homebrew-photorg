@@ -27,7 +27,7 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@main
 
       - name: Tap formula
-        run: brew tap mihovilrak/photorg "$GITHUB_WORKSPACE"
+        run: brew tap --custom-remote mihovilrak/photorg "$GITHUB_WORKSPACE"
 
       - name: Install
         run: brew install --formula --verbose mihovilrak/photorg/photorg
